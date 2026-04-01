@@ -1,0 +1,16 @@
+{
+  "name": "browserpod-vite-baseline",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "8.0.2"
+  },
+  "overrides": {
+    "esbuild": "npm:esbuild-wasm@*",
+    "rollup": "npm:@rollup/wasm-node@*"
+  }
+}

@@ -1,0 +1,221 @@
+export const recipes = [
+  {
+    id: 'next',
+    name: 'Next',
+    kind: 'React SSR',
+    command: 'npm run dev',
+    installFlags: ['--ignore-scripts'],
+    stack: 'next@16.2.1 + react@19.2.4',
+    description:
+      'A minimal Next.js page served from BrowserPod with the SWC WASM package installed explicitly.',
+    notes: [
+      'Runs in webpack mode because Turbopack requires native bindings that BrowserPod cannot provide.',
+      'Pins @next/swc-wasm-nodejs so the compiler path stays inside the browser-friendly WASM lane.',
+      'Uses the classic pages router to keep the hello world example as small as possible.',
+    ],
+    files: ['package.json', 'pages/index.js'],
+  },
+  {
+    id: 'nuxt',
+    name: 'Nuxt',
+    kind: 'Vue SSR',
+    command: 'npm run dev',
+    installFlags: ['--ignore-scripts'],
+    stack: 'nuxt@4.4.2 + Vite + OXC WASM bindings',
+    description:
+      'A single-file Nuxt app that boots a dev server inside BrowserPod and renders through a portal.',
+    notes: [
+      'Adds the OXC wasm32-wasi bindings explicitly so Nuxt can fall back away from native binaries.',
+      'Uses the BrowserPod rollup and esbuild overrides from the local docs.',
+      'Keeps the app to a single app.vue entry so install and startup stay lightweight.',
+    ],
+    files: ['package.json', 'nuxt.config.mjs', 'app.vue'],
+  },
+  {
+    id: 'express',
+    name: 'Express',
+    kind: 'Node server',
+    command: 'npm run dev',
+    stack: 'express@5.1.0',
+    description:
+      'The simplest server-side hello world: plain Express listening on port 3000 from inside the pod.',
+    notes: [
+      'This is the closest match to the BrowserPod docs and the fastest install of the set.',
+      'No build step is needed, so it is a good baseline for comparing the framework-heavy recipes.',
+      'The page is served entirely from the Node process running inside BrowserPod.',
+    ],
+    files: ['package.json', 'server.js'],
+  },
+  {
+    id: 'vite-plain',
+    name: 'Vite baseline',
+    kind: 'Vite smoke test',
+    command: 'npm run dev',
+    stack: 'vite@8.0.2',
+    description:
+      'A plain Vite app with no framework plugin, useful for checking whether raw Vite can boot inside BrowserPod.',
+    notes: [
+      'Uses only Vite plus the BrowserPod WASM rollup and esbuild overrides.',
+      'Serves a single static page with no React, Vue, or Svelte layer involved.',
+      'If this fails, the issue is likely Vite-level rather than framework-plugin-specific.',
+    ],
+    files: [
+      'package.json',
+      'index.html',
+      'vite.config.js',
+      'src/main.js',
+      'src/app.css',
+    ],
+  },
+  {
+    id: 'vite-react-smoke',
+    name: 'Vite + React',
+    kind: 'Vite plugin smoke test',
+    command: 'npm run dev',
+    stack: 'react@19.2.4 + vite@8.0.2',
+    description:
+      'A stripped-down React + Vite recipe that keeps the test focused on Vite plus the React plugin.',
+    notes: [
+      'Uses the same React, plugin-react, and Vite versions as the full React recipe.',
+      'Keeps the component tree intentionally tiny so plugin startup is the main variable.',
+      'Useful for separating plugin-react compatibility from the larger framework demo.',
+    ],
+    files: [
+      'package.json',
+      'index.html',
+      'vite.config.js',
+      'src/main.jsx',
+      'src/App.jsx',
+      'src/app.css',
+    ],
+  },
+  {
+    id: 'vite-vue-smoke',
+    name: 'Vite + Vue',
+    kind: 'Vite plugin smoke test',
+    command: 'npm run dev',
+    stack: 'vue@3.5.31 + vite@8.0.2',
+    description:
+      'A stripped-down Vue + Vite recipe that keeps the test focused on Vite plus the Vue plugin.',
+    notes: [
+      'Uses the same Vue, plugin-vue, and Vite versions as the full Vue recipe.',
+      'Limits the app to a single App.vue component and a tiny entry file.',
+      'Useful for checking whether the Vue plugin boots where plain Vite succeeds.',
+    ],
+    files: [
+      'package.json',
+      'index.html',
+      'vite.config.js',
+      'src/main.js',
+      'src/App.vue',
+      'src/app.css',
+    ],
+  },
+  {
+    id: 'vite-svelte-smoke',
+    name: 'Vite + Svelte',
+    kind: 'Vite plugin smoke test',
+    command: 'npm run dev',
+    stack: 'svelte@5.55.0 + vite@8.0.2',
+    description:
+      'A stripped-down Svelte + Vite recipe that keeps the test focused on Vite plus the Svelte plugin.',
+    notes: [
+      'Uses the same Svelte, plugin-svelte, and Vite versions as the full Svelte recipe.',
+      'Keeps the app to one component so the config and plugin startup path stay obvious.',
+      'Useful for confirming whether the Svelte failure happens before app code is relevant.',
+    ],
+    files: [
+      'package.json',
+      'index.html',
+      'vite.config.js',
+      'src/main.js',
+      'src/App.svelte',
+      'src/app.css',
+    ],
+  },
+  {
+    id: 'svelte',
+    name: 'Svelte',
+    kind: 'Vite SPA',
+    command: 'npm run dev',
+    stack: 'svelte@5.55.0 + vite@8.0.2',
+    description:
+      'A Svelte hello world that uses Vite inside BrowserPod with the documented WASM package overrides.',
+    notes: [
+      'Uses Svelte 5 mount() syntax and a tiny component tree.',
+      'Swaps rollup and esbuild for BrowserPod-safe WASM builds via npm overrides.',
+      'Runs as a normal Vite dev server, then BrowserPod exposes it through a portal.',
+    ],
+    files: [
+      'package.json',
+      'index.html',
+      'vite.config.js',
+      'src/main.js',
+      'src/App.svelte',
+      'src/app.css',
+    ],
+  },
+  {
+    id: 'react',
+    name: 'React',
+    kind: 'Vite SPA',
+    command: 'npm run dev',
+    stack: 'react@19.2.4 + vite@8.0.2',
+    description:
+      'A small React + Vite app configured to use BrowserPod-friendly Rollup and esbuild replacements.',
+    notes: [
+      'Uses the current React 19 root API with a small component-driven hello world.',
+      'Keeps the project structure close to a standard Vite starter so it is easy to extend.',
+      'All compilation happens inside BrowserPod after npm install completes in the pod.',
+    ],
+    files: [
+      'package.json',
+      'index.html',
+      'vite.config.js',
+      'src/main.jsx',
+      'src/App.jsx',
+      'src/app.css',
+    ],
+  },
+  {
+    id: 'vue',
+    name: 'Vue',
+    kind: 'Vite SPA',
+    command: 'npm run dev',
+    stack: 'vue@3.5.31 + vite@8.0.2',
+    description:
+      'A single-file Vue component starter that runs through Vite entirely inside BrowserPod.',
+    notes: [
+      'Uses @vitejs/plugin-vue plus the BrowserPod rollup and esbuild overrides.',
+      'Sticks to one App.vue file so the hello world stays easy to inspect.',
+      'The generated portal behaves like any other Vue dev server URL.',
+    ],
+    files: [
+      'package.json',
+      'index.html',
+      'vite.config.js',
+      'src/main.js',
+      'src/App.vue',
+      'src/style.css',
+    ],
+  },
+  {
+    id: 'astro',
+    name: 'Astro',
+    kind: 'Content-first app',
+    command: 'npm run dev',
+    installFlags: ['--ignore-scripts'],
+    stack: 'astro@6.0.8',
+    description:
+      'A tiny Astro page with the passthrough image service so the recipe does not rely on Sharp at runtime.',
+    notes: [
+      'Keeps the page static and text-forward, which makes Astro a good BrowserPod fit.',
+      'Uses Astro’s passthrough image service to avoid depending on image processing for the demo.',
+      'Applies the same rollup and esbuild override pattern recommended in the BrowserPod docs.',
+    ],
+    files: ['package.json', 'astro.config.mjs', 'src/pages/index.astro'],
+  },
+];
+
+export const recipeMap = new Map(recipes.map((recipe) => [recipe.id, recipe]));
+export const defaultRecipeId = 'express';

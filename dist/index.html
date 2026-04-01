@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BrowserPod Hello World Recipes</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <script type="module" crossorigin src="/assets/index-Ci6BmD8I.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-tJbbxirZ.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <main class="app">
+        <section class="hero">
+          <div class="hero-mark">
+            <img src="/logo.png" alt="BrowserPod logo" class="logo" />
+          </div>
+          <div class="hero-copy">
+            <p class="eyebrow">BrowserPod Recipes</p>
+            <h1>Hello world frameworks that boot inside the browser</h1>
+            <p class="lede">
+              Pick a framework recipe, copy its project files into a fresh pod,
+              install dependencies inside BrowserPod, and preview the result
+              through a live portal URL.
+            </p>
+          </div>
+        </section>
+
+        <section class="controls-grid">
+          <div class="panel control-panel">
+            <div class="panel-title-row">
+              <h2>Run A Recipe</h2>
+              <span class="panel-kicker">Fresh pod each time</span>
+            </div>
+            <label class="field-label" for="recipe-select">Framework</label>
+            <select id="recipe-select" aria-label="Select a BrowserPod recipe"></select>
+            <button id="run-button" type="button">Run selected recipe</button>
+            <p class="control-footnote">
+              Each run calls <code>BrowserPod.boot()</code>, so it consumes
+              BrowserPod tokens. Add your key to <code>recipes/.env</code> as
+              <code>VITE_BP_APIKEY=...</code>.
+            </p>
+          </div>
+
+          <div class="panel recipe-panel">
+            <div class="panel-title-row">
+              <h2 id="recipe-title">Recipe details</h2>
+              <span class="panel-kicker" id="recipe-kind"></span>
+            </div>
+            <p id="recipe-description" class="recipe-description"></p>
+            <div class="meta-grid">
+              <div class="meta-card">
+                <span class="meta-label">Command</span>
+                <code id="recipe-command"></code>
+              </div>
+              <div class="meta-card">
+                <span class="meta-label">Stack</span>
+                <code id="recipe-stack"></code>
+              </div>
+            </div>
+            <ul id="recipe-notes" class="recipe-notes"></ul>
+          </div>
+        </section>
+
+        <section class="workspace">
+          <div class="panel preview-panel">
+            <div class="panel-title-row">
+              <h2>Portal Preview</h2>
+              <span class="panel-kicker">Live app</span>
+            </div>
+            <p id="status" class="status" data-state="neutral">
+              Select a recipe and click Run selected recipe to boot a pod.
+            </p>
+            <div id="url" class="portal-url">Portal URL will appear here.</div>
+            <div id="preview-empty" class="preview-empty">
+              The embedded preview stays empty until the inner project listens on
+              a port and BrowserPod creates a portal.
+            </div>
+            <iframe id="portal" title="BrowserPod recipe preview" hidden></iframe>
+          </div>
+
+          <div class="panel terminal-panel">
+            <div class="panel-title-row">
+              <h2>Terminal</h2>
+              <span class="panel-kicker">npm install + dev server logs</span>
+            </div>
+            <pre id="console"></pre>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
