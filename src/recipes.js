@@ -5,6 +5,8 @@ export const recipes = [
     kind: 'React SSR',
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['node_modules/next/dist/bin/next', 'dev', '-H', '0.0.0.0', '-p', '3000'],
     stack: 'next@16.2.1 + react@19.2.4',
     description:
       'A minimal Next.js page served from BrowserPod with the SWC WASM package installed explicitly.',
@@ -21,6 +23,8 @@ export const recipes = [
     kind: 'Vue SSR',
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['node_modules/nuxt/bin/nuxt.mjs', 'dev', '--host', '0.0.0.0', '--port', '3000'],
     stack: 'nuxt@4.4.2 + Vite + OXC WASM bindings',
     description:
       'A single-file Nuxt app that boots a dev server inside BrowserPod and renders through a portal.',
@@ -36,6 +40,8 @@ export const recipes = [
     name: 'Express',
     kind: 'Node server',
     command: 'npm run dev',
+    devCmd: 'node',
+    devArgs: ['server.js'],
     stack: 'express@5.1.0',
     description:
       'The simplest server-side hello world: plain Express listening on port 3000 from inside the pod.',
@@ -51,7 +57,10 @@ export const recipes = [
     name: 'Vite baseline',
     kind: 'Vite smoke test',
     command: 'npm run dev',
-    stack: 'vite@8.0.2',
+    installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    stack: 'vite@7.2.4',
     description:
       'A plain Vite app with no framework plugin, useful for checking whether raw Vite can boot inside BrowserPod.',
     notes: [
@@ -72,7 +81,10 @@ export const recipes = [
     name: 'Vite + React',
     kind: 'Vite plugin smoke test',
     command: 'npm run dev',
-    stack: 'react@19.2.4 + vite@8.0.2',
+    installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    stack: 'react@19.2.4 + @vitejs/plugin-react@5.2.0 + vite@7.2.4',
     description:
       'A stripped-down React + Vite recipe that keeps the test focused on Vite plus the React plugin.',
     notes: [
@@ -94,7 +106,10 @@ export const recipes = [
     name: 'Vite + Vue',
     kind: 'Vite plugin smoke test',
     command: 'npm run dev',
-    stack: 'vue@3.5.31 + vite@8.0.2',
+    installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    stack: 'vue@3.5.31 + vite@7.2.4',
     description:
       'A stripped-down Vue + Vite recipe that keeps the test focused on Vite plus the Vue plugin.',
     notes: [
@@ -116,7 +131,10 @@ export const recipes = [
     name: 'Vite + Svelte',
     kind: 'Vite plugin smoke test',
     command: 'npm run dev',
-    stack: 'svelte@5.55.0 + vite@8.0.2',
+    installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    stack: 'svelte@5.55.0 + @sveltejs/vite-plugin-svelte@6.2.4 + vite@7.2.4',
     description:
       'A stripped-down Svelte + Vite recipe that keeps the test focused on Vite plus the Svelte plugin.',
     notes: [
@@ -138,7 +156,10 @@ export const recipes = [
     name: 'Svelte',
     kind: 'Vite SPA',
     command: 'npm run dev',
-    stack: 'svelte@5.55.0 + vite@8.0.2',
+    installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    stack: 'svelte@5.55.0 + @sveltejs/vite-plugin-svelte@6.2.4 + vite@7.2.4',
     description:
       'A Svelte hello world that uses Vite inside BrowserPod with the documented WASM package overrides.',
     notes: [
@@ -160,7 +181,10 @@ export const recipes = [
     name: 'React',
     kind: 'Vite SPA',
     command: 'npm run dev',
-    stack: 'react@19.2.4 + vite@8.0.2',
+    installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    stack: 'react@19.2.4 + @vitejs/plugin-react@5.2.0 + vite@7.2.4',
     description:
       'A small React + Vite app configured to use BrowserPod-friendly Rollup and esbuild replacements.',
     notes: [
@@ -182,7 +206,10 @@ export const recipes = [
     name: 'Vue',
     kind: 'Vite SPA',
     command: 'npm run dev',
-    stack: 'vue@3.5.31 + vite@8.0.2',
+    installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    stack: 'vue@3.5.31 + vite@7.2.4',
     description:
       'A single-file Vue component starter that runs through Vite entirely inside BrowserPod.',
     notes: [
@@ -205,15 +232,17 @@ export const recipes = [
     kind: 'Content-first app',
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
+    devCmd: 'node',
+    devArgs: ['astro-start.mjs', 'dev', '--host', '0.0.0.0', '--port', '3000'],
     stack: 'astro@6.0.8',
     description:
       'A tiny Astro page with the passthrough image service so the recipe does not rely on Sharp at runtime.',
     notes: [
       'Keeps the page static and text-forward, which makes Astro a good BrowserPod fit.',
-      'Uses Astro’s passthrough image service to avoid depending on image processing for the demo.',
+      "Uses Astro's passthrough image service to avoid depending on image processing for the demo.",
       'Applies the same rollup and esbuild override pattern recommended in the BrowserPod docs.',
     ],
-    files: ['package.json', 'astro.config.mjs', 'src/pages/index.astro'],
+    files: ['package.json', 'astro.config.mjs', 'astro-start.mjs', 'src/pages/index.astro'],
   },
 ];
 

@@ -7,7 +7,7 @@
     "dev": "vite"
   },
   "devDependencies": {
-    "vite": "8.0.2"
+    "vite": "7.2.4"
   },
   "overrides": {
     "esbuild": "npm:esbuild-wasm@*",

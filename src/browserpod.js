@@ -13,6 +13,8 @@ export async function runRecipeInBrowserPod({
   recipe,
   onPortal,
   onStatus,
+  onReady,
+  launch = false,
   isCurrentRun = () => true,
 }) {
   log(`Starting recipe: ${recipe.id}`);
@@ -60,13 +62,30 @@ export async function runRecipeInBrowserPod({
   log(`npm install finished in ${((Date.now() - installStart) / 1000).toFixed(1)}s.`);
   assertCurrent(isCurrentRun);
 
+  onReady?.({ pod, terminal });
+
+  if (!launch) {
+    onStatus('Install complete. Type commands below.', 'success');
+    return;
+  }
+
+  const devCmd = recipe.devCmd ?? 'npm';
+  const devArgs = recipe.devArgs ?? ['run', 'dev'];
   onStatus(`Starting ${recipe.name} with ${recipe.command}...`, 'loading');
-  log('Running npm run dev...');
-  pod.run('npm', ['run', 'dev'], {
+  log(`Running ${devCmd} ${devArgs.join(' ')}...`);
+  const devProcess = pod.run(devCmd, devArgs, {
     cwd: PROJECT_ROOT,
     terminal,
     echo: true,
   });
+  devProcess.then(
+    () => { log('npm run dev exited.'); },
+    (err) => {
+      log(`npm run dev failed: ${err}`);
+      console.error('[BrowserPod] npm run dev error:', err);
+      onStatus(`${recipe.name} dev server failed. See console for details.`, 'error');
+    }
+  );
 
   onStatus(
     'Waiting for the inner app to listen on port 3000 and create a portal...',
