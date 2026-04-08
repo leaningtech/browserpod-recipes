@@ -115,7 +115,7 @@ cmdForm.addEventListener('submit', async (e) => {
   }
 
   if (translated.script != null) {
-    const tmpPath = `/tmp/_bp_cmd_${++shell.scriptCounter}.js`;
+    const tmpPath = `/project/_bp_cmd_${++shell.scriptCounter}.cjs`;
     try {
       const file = await shell.pod.createFile(tmpPath, 'binary');
       await file.write(new TextEncoder().encode(translated.script).buffer);
@@ -143,8 +143,12 @@ function translateCommand(input, cwd) {
       return { cd: target };
     }
 
-    case 'node':
+    case 'node': {
+      if (rest[0] === '-e') {
+        return { script: rest.slice(1).join(' ') };
+      }
       return { cmd: 'node', args: rest };
+    }
 
     case 'npm':
       return { cmd: 'npm', args: rest };

@@ -6,8 +6,8 @@ export const recipes = [
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
     devCmd: 'node',
-    devArgs: ['node_modules/next/dist/bin/next', 'dev', '-H', '0.0.0.0', '-p', '3000'],
-    stack: 'next@16.2.1 + react@19.2.4',
+    devArgs: ['start-next.mjs'],
+    stack: 'next@14.2.29 + react@18.3.1',
     description:
       'A minimal Next.js page served from BrowserPod with the SWC WASM package installed explicitly.',
     notes: [
@@ -15,7 +15,7 @@ export const recipes = [
       'Pins @next/swc-wasm-nodejs so the compiler path stays inside the browser-friendly WASM lane.',
       'Uses the classic pages router to keep the hello world example as small as possible.',
     ],
-    files: ['package.json', 'pages/index.js'],
+    files: ['package.json', 'next.config.js', 'babel.config.json', 'empty-module.js', 'start-next.mjs', 'pages/index.js'],
   },
   {
     id: 'nuxt',
@@ -59,19 +59,19 @@ export const recipes = [
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
     devCmd: 'node',
-    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    devArgs: ['start-vite.mjs'],
     stack: 'vite@7.2.4',
     description:
       'A plain Vite app with no framework plugin, useful for checking whether raw Vite can boot inside BrowserPod.',
     notes: [
-      'Uses only Vite plus the BrowserPod WASM rollup and esbuild overrides.',
-      'Serves a single static page with no React, Vue, or Svelte layer involved.',
-      'If this fails, the issue is likely Vite-level rather than framework-plugin-specific.',
+      'Uses the programmatic Vite API with configFile:false to bypass esbuild config bundling.',
+      'esbuild:false disables the vite:esbuild plugin since plain JS needs no transformation.',
+      'watch:null and optimizeDeps disabled to avoid other esbuild call sites at startup.',
     ],
     files: [
       'package.json',
       'index.html',
-      'vite.config.js',
+      'start-vite.mjs',
       'src/main.js',
       'src/app.css',
     ],
@@ -83,7 +83,7 @@ export const recipes = [
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
     devCmd: 'node',
-    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    devArgs: ['start-vite.mjs'],
     stack: 'react@19.2.4 + @vitejs/plugin-react@5.2.0 + vite@7.2.4',
     description:
       'A stripped-down React + Vite recipe that keeps the test focused on Vite plus the React plugin.',
@@ -95,7 +95,7 @@ export const recipes = [
     files: [
       'package.json',
       'index.html',
-      'vite.config.js',
+      'start-vite.mjs',
       'src/main.jsx',
       'src/App.jsx',
       'src/app.css',
@@ -108,7 +108,7 @@ export const recipes = [
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
     devCmd: 'node',
-    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    devArgs: ['start-vite.mjs'],
     stack: 'vue@3.5.31 + vite@7.2.4',
     description:
       'A stripped-down Vue + Vite recipe that keeps the test focused on Vite plus the Vue plugin.',
@@ -120,7 +120,7 @@ export const recipes = [
     files: [
       'package.json',
       'index.html',
-      'vite.config.js',
+      'start-vite.mjs',
       'src/main.js',
       'src/App.vue',
       'src/app.css',
@@ -133,7 +133,7 @@ export const recipes = [
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
     devCmd: 'node',
-    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    devArgs: ['start-vite.mjs'],
     stack: 'svelte@5.55.0 + @sveltejs/vite-plugin-svelte@6.2.4 + vite@7.2.4',
     description:
       'A stripped-down Svelte + Vite recipe that keeps the test focused on Vite plus the Svelte plugin.',
@@ -145,7 +145,7 @@ export const recipes = [
     files: [
       'package.json',
       'index.html',
-      'vite.config.js',
+      'start-vite.mjs',
       'src/main.js',
       'src/App.svelte',
       'src/app.css',
@@ -158,7 +158,7 @@ export const recipes = [
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
     devCmd: 'node',
-    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    devArgs: ['start-vite.mjs'],
     stack: 'svelte@5.55.0 + @sveltejs/vite-plugin-svelte@6.2.4 + vite@7.2.4',
     description:
       'A Svelte hello world that uses Vite inside BrowserPod with the documented WASM package overrides.',
@@ -170,7 +170,7 @@ export const recipes = [
     files: [
       'package.json',
       'index.html',
-      'vite.config.js',
+      'start-vite.mjs',
       'src/main.js',
       'src/App.svelte',
       'src/app.css',
@@ -183,7 +183,7 @@ export const recipes = [
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
     devCmd: 'node',
-    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    devArgs: ['start-vite.mjs'],
     stack: 'react@19.2.4 + @vitejs/plugin-react@5.2.0 + vite@7.2.4',
     description:
       'A small React + Vite app configured to use BrowserPod-friendly Rollup and esbuild replacements.',
@@ -195,7 +195,7 @@ export const recipes = [
     files: [
       'package.json',
       'index.html',
-      'vite.config.js',
+      'start-vite.mjs',
       'src/main.jsx',
       'src/App.jsx',
       'src/app.css',
@@ -208,7 +208,7 @@ export const recipes = [
     command: 'npm run dev',
     installFlags: ['--ignore-scripts'],
     devCmd: 'node',
-    devArgs: ['node_modules/vite/bin/vite.js', '--host', '0.0.0.0', '--port', '3000'],
+    devArgs: ['start-vite.mjs'],
     stack: 'vue@3.5.31 + vite@7.2.4',
     description:
       'A single-file Vue component starter that runs through Vite entirely inside BrowserPod.',
@@ -220,7 +220,7 @@ export const recipes = [
     files: [
       'package.json',
       'index.html',
-      'vite.config.js',
+      'start-vite.mjs',
       'src/main.js',
       'src/App.vue',
       'src/style.css',
