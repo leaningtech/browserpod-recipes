@@ -7,15 +7,15 @@ export const recipes = [
     installFlags: ['--ignore-scripts'],
     devCmd: 'node',
     devArgs: ['start-next.mjs'],
-    stack: 'next@14.2.29 + react@18.3.1',
+    stack: 'next@13.5.7 + react@18.2.0',
     description:
-      'A minimal Next.js page served from BrowserPod with the SWC WASM package installed explicitly.',
+      'A minimal Next.js App Router page served from BrowserPod. Uses Next 13 which falls back to Babel automatically when SWC native binaries are unavailable.',
     notes: [
-      'Runs in webpack mode because Turbopack requires native bindings that BrowserPod cannot provide.',
-      'Pins @next/swc-wasm-nodejs so the compiler path stays inside the browser-friendly WASM lane.',
-      'Uses the classic pages router to keep the hello world example as small as possible.',
+      'Next 13 gracefully falls back to Babel on unsupported platforms without trying to download a WASM binary.',
+      'Uses the App Router (app/layout.jsx + app/page.jsx) with a plain JSX hello world.',
+      'No webpack customisation needed — Next 13 dev overlay does not import node: built-ins.',
     ],
-    files: ['package.json', 'next.config.js', 'babel.config.json', 'empty-module.js', 'start-next.mjs', 'pages/index.js'],
+    files: ['package.json', 'next.config.js', 'babel.config.json', 'start-next.mjs', 'app/layout.jsx', 'app/page.jsx'],
   },
   {
     id: 'nuxt',
